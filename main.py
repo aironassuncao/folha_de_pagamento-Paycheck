@@ -1,4 +1,3 @@
-import os
 import aspose.pdf as ap
 
 document = ap.Document()
@@ -13,10 +12,10 @@ def main():
     salary = 0
     try:
         name = input('Digite seu nome completo: ')
-        job = input(('Digite seu cargo atual: '))
+        job = input('Digite seu cargo atual: ')
         salary = float(input('Digite seu salário bruto em Reais: ').replace(",", "."))
 
-    except:
+    except TypeError:
         print('Digite um valor válido!')
         main()
 
@@ -43,7 +42,8 @@ def main():
     elif 7507.49 < salary:
         salary_impost_inss = 14.00
 
-    f = lambda a, b, c: (a / 100) * (100 - (b + c))
+    def calculate_tax(a, b, c):
+        (a / 100) * (100 - (b + c))
 
     salary_impost_fgts = (salary * 8) / 100
     data_show_ir = (salary * salary_impost_ir) / 100
@@ -60,7 +60,7 @@ def main():
     print(' ')
     print(
         f'-------------------------------Salário líquido após desconto de imposto de renda: '
-        f'{f(salary, salary_impost_ir, salary_impost_inss)}\n ')
+        f'{calculate_tax(salary, salary_impost_ir, salary_impost_inss)}\n ')
 
     text_name = ap.text.TextFragment(f"Nome: {name}")
     text_job = ap.text.TextFragment(f"Cargo: {job}")
@@ -71,7 +71,7 @@ def main():
                                            f"------------FGTS: R${salary_impost_fgts} \n"
                                            f"-------------------------------Salário líquido após "
                                            f"desconto de imposto de renda: "
-                                           f"{f(salary, salary_impost_ir, salary_impost_inss)}\n ")
+                                           f"{calculate_tax(salary, salary_impost_ir, salary_impost_inss)}\n ")
     page.paragraphs.add(text_name)
     page.paragraphs.add(text_job)
     page.paragraphs.add(text_reductions)
